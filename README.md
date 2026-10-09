@@ -56,12 +56,10 @@ Game web 3D interaktif edukatif yang dirancang khusus untuk anak sekolah dasar/m
 
 ## 🚀 Cara Menjalankan Game Secara Lokal
 
-### 1. Menjalankan Server Development / Preview
-Buka PowerShell di direktori proyek:
-```powershell
-cd "C:\Users\FUJITSU\.gemini\antigravity\scratch\uno-cerita-3d"
-# Menggunakan Node.js standalone
-$env:Path = "C:\Users\FUJITSU\node_standalone\node-v20.18.0-win-x64;" + $env:Path
-npm run preview
+### 1. Menjalankan Server Development
+Buka PowerShell atau Command Prompt di direktori proyek:
+```bash
+npm install
+npm run dev
 ```
-Buka browser di: **http://localhost:5173**
+Buka browser di: **http://localhost:3000** atau jalankan file **JALANKAN_GAME.bat**.

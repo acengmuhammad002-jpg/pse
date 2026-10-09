@@ -6,8 +6,8 @@ echo ===================================================
 echo   MEMULAI GAME "UNO CERITA: School Well-being 3D"
 echo ===================================================
 echo.
-echo Membuka browser di http://localhost:5173 ...
-start "" "http://localhost:5173"
+echo Membuka browser di http://localhost:3000 ...
+start "" "http://localhost:3000"
 echo.
-call npm run preview
+call npm run dev
 pause

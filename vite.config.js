@@ -6,13 +6,13 @@ export default defineConfig({
   plugins: [react()],
   preview: {
     host: '0.0.0.0',
-    port: 5173,
-    allowedHosts: true, // Izinkan host header dari tunneling eksternal / trycloudflare
+    port: 3000,
+    allowedHosts: true,
     cors: true,
   },
   server: {
     host: '0.0.0.0',
-    port: 5173,
+    port: 3000,
     allowedHosts: true,
     cors: true,
   }

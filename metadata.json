@@ -1,0 +1,6 @@
+{
+  "name": "UNO CERITA: School Well-being",
+  "description": "Game 3D interaktif edukatif eksplorasi 4 Dimensi School Well-being ramah anak dengan Three.js.",
+  "permissions": [],
+  "capabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
