@@ -203,7 +203,7 @@ export default function ThreeCanvas({
     propsRef.current = { direction, isLobby, activePlayerIndex, onDrawDeckClick };
   }, [direction, isLobby, activePlayerIndex, onDrawDeckClick]);
 
-  const [webglSupported] = useState(() => checkWebGLSupport());
+  const [webglSupported, setWebglSupported] = useState(() => checkWebGLSupport());
 
   useEffect(() => {
     if (!webglSupported) return;
@@ -238,6 +238,9 @@ export default function ThreeCanvas({
       rendererRef.current = renderer;
     } catch (err) {
       console.warn("WebGL Renderer creation failed, running in fallback mode:", err);
+      setTimeout(() => {
+        setWebglSupported(false);
+      }, 0);
       return;
     }
 
@@ -421,8 +424,9 @@ export default function ThreeCanvas({
     // RESIZE LISTENER
     const handleResize = () => {
       if (!mountRef.current || !rendererRef.current || !cameraRef.current) return;
-      const w = mountRef.current.clientWidth;
-      const h = mountRef.current.clientHeight;
+      const w = mountRef.current.clientWidth || window.innerWidth;
+      const h = mountRef.current.clientHeight || window.innerHeight;
+      if (!w || !h || h <= 0) return;
       cameraRef.current.aspect = w / h;
       cameraRef.current.updateProjectionMatrix();
       rendererRef.current.setSize(w, h);

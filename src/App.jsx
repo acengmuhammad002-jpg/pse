@@ -80,8 +80,9 @@ export default function App() {
 
         setPlayers((prevPlayers) => {
           const updated = [...prevPlayers];
+          if (!updated[playerIdx]) return prevPlayers;
           const targetPlayer = { ...updated[playerIdx] };
-          targetPlayer.hand = [...targetPlayer.hand, ...drawn];
+          targetPlayer.hand = [...(targetPlayer.hand || []), ...drawn];
           updated[playerIdx] = targetPlayer;
           return updated;
         });
@@ -95,6 +96,7 @@ export default function App() {
   // Draw card by active player on their turn
   const handleDrawCard = () => {
     if (pendingQuestion || pendingSpecialAction) return;
+    if (!players || players.length === 0) return;
 
     sounds.playDraw();
     setLastAction({
@@ -114,6 +116,7 @@ export default function App() {
     if (pendingQuestion || pendingSpecialAction) return;
 
     const currentPlayer = players[activePlayerIndex];
+    if (!currentPlayer || !currentPlayer.hand) return;
     const newHand = currentPlayer.hand.filter((_, idx) => idx !== cardIndex);
 
     // Update player hand & top card
@@ -139,7 +142,7 @@ export default function App() {
     if (card.type === 'draw2') {
       // +2 allows free targeting of any classmate
       const otherPlayers = players
-        .map((p, idx) => ({ index: idx, name: p.name, count: p.hand.length }))
+        .map((p, idx) => ({ index: idx, name: p.name, count: p.hand?.length || 0 }))
         .filter((p) => p.index !== activePlayerIndex);
 
       setPendingSpecialAction({
@@ -174,7 +177,7 @@ export default function App() {
 
   // Trigger Question Modal for the dimension
   const triggerQuestionModal = (card, player, remainingHand, currentDir, step = 1, overrideColor = null) => {
-    let dimKey = overrideColor || (card.color !== 'wild' ? card.color : activeChosenColor) || 'being';
+    let dimKey = overrideColor || (card?.color !== 'wild' ? card?.color : activeChosenColor) || 'being';
     if (!CARD_COLORS.includes(dimKey)) {
       dimKey = 'being';
     }
@@ -184,16 +187,18 @@ export default function App() {
       player,
       dimensionKey: dimKey,
       questionData: q,
-      remainingHand,
-      currentDir,
-      step,
+      remainingHand: remainingHand || [],
+      currentDir: currentDir || direction,
+      step: step || 1,
     });
   };
 
   // Callback when +2 Target is picked
   const handleSelectPlusTwoTarget = (targetIdx) => {
+    if (!pendingSpecialAction) return;
     const card = pendingSpecialAction.card;
     const currentPlayer = players[activePlayerIndex];
+    if (!currentPlayer) return;
     const remainingHand = pendingSpecialAction.remainingHand || [];
 
     // Throw +2 to target in 3D
@@ -213,9 +218,11 @@ export default function App() {
 
   // Callback when Wild Color is picked
   const handleSelectWildColor = (chosenColor) => {
+    if (!pendingSpecialAction) return;
     const card = pendingSpecialAction.card;
     const isWild4 = pendingSpecialAction.isWild4;
     const currentPlayer = players[activePlayerIndex];
+    if (!currentPlayer) return;
     const remainingHand = pendingSpecialAction.remainingHand || [];
 
     setActiveChosenColor(chosenColor);
@@ -239,7 +246,12 @@ export default function App() {
 
   // Callback when Player completes Question Modal
   const handleCompleteReflection = (reflectionRecord) => {
-    const { player, remainingHand, currentDir, step } = pendingQuestion;
+    if (!pendingQuestion) return;
+    const { player, remainingHand = [], currentDir = direction, step = 1 } = pendingQuestion;
+    if (!player) {
+      setPendingQuestion(null);
+      return;
+    }
 
     // Record reflection
     const updatedReflections = [...reflections, reflectionRecord];
@@ -254,7 +266,7 @@ export default function App() {
     // Check End Game conditions:
     // Game HANYA selesai ketika ada pemain yang kartunya habis (remainingHand.length === 0)
     // Skor Well-being tetap bertambah sebagai capaian tim, tetapi tidak mengakhiri game
-    if (remainingHand.length === 0) {
+    if (remainingHand && remainingHand.length === 0) {
       setWinner(player);
       setGameState('gameover');
       return;

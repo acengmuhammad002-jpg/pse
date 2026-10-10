@@ -50,7 +50,7 @@ export default function SummaryModal({
   const total = reflections.length || 1;
   const sortedDimensions = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
   const topDimensionKey = sortedDimensions[0] || 'loving';
-  const topDimension = DIMENSIONS[topDimensionKey];
+  const topDimension = DIMENSIONS[topDimensionKey] || DIMENSIONS.loving || DIMENSIONS.health;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md overflow-y-auto animate-in fade-in duration-300">

@@ -14,7 +14,7 @@ export default function PlayerHand({
   isBotTurn = false,
 }) {
   const activePlayer = players[activePlayerIndex];
-  if (!activePlayer) return null;
+  if (!activePlayer || !activePlayer.hand) return null;
 
   const playerColorMap = [
     'from-red-600 to-rose-700 border-red-400',
@@ -39,7 +39,8 @@ export default function PlayerHand({
     wild: 'WILD',
   };
 
-  const playableCardsCount = activePlayer.hand.filter((c) =>
+  const playerHand = activePlayer.hand || [];
+  const playableCardsCount = playerHand.filter((c) =>
     canPlayCard(c, topCard, activeChosenColor)
   ).length;
 
@@ -54,11 +55,11 @@ export default function PlayerHand({
         <span className="text-xs sm:text-sm font-extrabold text-white flex items-center gap-1.5">
           <span>Giliran:</span>
           <span className="text-amber-300 font-fredoka text-sm sm:text-base">{activePlayer.name}</span>
-          <span className="text-xs text-slate-400 font-normal">({activePlayer.hand.length} kartu)</span>
+          <span className="text-xs text-slate-400 font-normal">({playerHand.length} kartu)</span>
           {isBotTurn && <span className="text-xs text-indigo-300 ml-1 animate-pulse">🤖 (Giliran bot...)</span>}
         </span>
 
-        {activePlayer.hand.length === 1 && (
+        {playerHand.length === 1 && (
           <span className="px-2.5 py-0.5 rounded-full bg-red-600 text-white text-xs font-black animate-bounce shadow-lg flex items-center gap-1">
             <Sparkles className="w-3 h-3" /> TINGGAL 1 KARTU! (UNO)
           </span>

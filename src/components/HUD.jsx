@@ -186,7 +186,7 @@ export default function HUD({
               />
               <span className="text-xs font-bold text-white tracking-wide">{p.name}</span>
               <span className="text-[11px] font-semibold px-2 py-0.5 rounded-lg bg-slate-800/90 text-slate-300 border border-slate-700/40">
-                {p.hand.length} kartu
+                {p.hand?.length ?? 0} kartu
               </span>
               {isActive && (
                 <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white ml-auto shadow-md">

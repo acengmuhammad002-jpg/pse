@@ -214,7 +214,7 @@ export default function QuestionModal({
               <div className="px-3.5 py-2 rounded-xl bg-slate-950/60 border border-slate-800 text-xs text-slate-300 flex items-center gap-2">
                 <Heart className="w-3.5 h-3.5 text-rose-400 shrink-0" />
                 <span className="truncate">
-                  Cerita {player.name}: <strong>"{selectedOption.text}"</strong>
+                  Cerita {player?.name || 'Pemain'}: <strong>"{selectedOption?.text || 'Pengalaman bermakna'}"</strong>
                 </span>
               </div>
 
@@ -225,12 +225,12 @@ export default function QuestionModal({
                   <span>Apresiasi & Validasi Emosi:</span>
                 </div>
                 <p className="text-xs sm:text-sm text-slate-100 font-medium leading-relaxed pl-4 border-l-2 border-cyan-400/50">
-                  {selectedOption.validation || selectedOption.feedback}
+                  {selectedOption?.validation || selectedOption?.feedback || 'Terima kasih telah berbagi perasaan dengan jujur.'}
                 </p>
               </div>
 
               {/* 2. Educational & Psychological Insight */}
-              {selectedOption.insight && (
+              {selectedOption?.insight && (
                 <div className="space-y-1">
                   <div className="text-xs font-bold text-amber-300 flex items-center gap-1.5">
                     <span>💡</span>
@@ -243,7 +243,7 @@ export default function QuestionModal({
               )}
 
               {/* 3. Actionable Advice & Self-care */}
-              {selectedOption.advice && (
+              {selectedOption?.advice && (
                 <div className="space-y-1">
                   <div className="text-xs font-bold text-emerald-300 flex items-center gap-1.5">
                     <span>🌱</span>
