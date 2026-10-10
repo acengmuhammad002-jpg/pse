@@ -24,10 +24,10 @@ export default function PlayerHand({
   ];
 
   const cardBgColors = {
-    health: 'bg-gradient-to-br from-red-500 to-red-700 border-red-300 text-white',
-    having: 'bg-gradient-to-br from-amber-400 to-amber-600 border-amber-200 text-slate-900',
-    loving: 'bg-gradient-to-br from-emerald-500 to-emerald-700 border-emerald-300 text-white',
-    being: 'bg-gradient-to-br from-blue-500 to-blue-700 border-blue-300 text-white',
+    health: 'bg-gradient-to-br from-red-500 via-rose-600 to-red-700 border-red-300 text-white',
+    having: 'bg-gradient-to-br from-amber-400 via-yellow-500 to-amber-600 border-amber-200 text-slate-900',
+    loving: 'bg-gradient-to-br from-emerald-500 via-teal-600 to-emerald-700 border-emerald-300 text-white',
+    being: 'bg-gradient-to-br from-blue-500 via-sky-600 to-indigo-700 border-blue-300 text-white',
     wild: 'bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 border-amber-400 text-white',
   };
 
@@ -44,42 +44,45 @@ export default function PlayerHand({
   ).length;
 
   return (
-    <div className="absolute bottom-2 left-0 right-0 z-20 flex flex-col items-center px-2 pointer-events-none">
+    <div className="absolute bottom-2 sm:bottom-3 left-0 right-0 z-20 flex flex-col items-center px-2 sm:px-4 pointer-events-none">
       
       {/* Player Turn & Status Banner */}
-      <div className="pointer-events-auto flex items-center gap-3 px-5 py-1.5 mb-2 rounded-2xl bg-slate-950/90 border border-slate-700/80 shadow-2xl backdrop-blur-md">
+      <div className="pointer-events-auto flex flex-wrap items-center justify-center gap-2.5 px-4 sm:px-6 py-1.5 mb-2 rounded-2xl bg-slate-950/90 border border-slate-700/80 shadow-2xl backdrop-blur-md">
         <div
           className={`w-3.5 h-3.5 rounded-full bg-gradient-to-tr ${playerColorMap[activePlayerIndex % 4]} shadow-md animate-pulse`}
         />
-        <span className="text-sm font-extrabold text-white">
-          Giliran: <span className="text-amber-300 font-fredoka text-base">{activePlayer.name}</span>
-          {isBotTurn && <span className="text-xs text-indigo-300 ml-2 animate-pulse">🤖 (Sedang giliran bot...)</span>}
+        <span className="text-xs sm:text-sm font-extrabold text-white flex items-center gap-1.5">
+          <span>Giliran:</span>
+          <span className="text-amber-300 font-fredoka text-sm sm:text-base">{activePlayer.name}</span>
+          <span className="text-xs text-slate-400 font-normal">({activePlayer.hand.length} kartu)</span>
+          {isBotTurn && <span className="text-xs text-indigo-300 ml-1 animate-pulse">🤖 (Giliran bot...)</span>}
         </span>
 
         {activePlayer.hand.length === 1 && (
-          <span className="px-2 py-0.5 rounded-full bg-red-600 text-white text-xs font-black animate-bounce shadow-lg flex items-center gap-1">
-            <Sparkles className="w-3 h-3" /> UNO!
+          <span className="px-2.5 py-0.5 rounded-full bg-red-600 text-white text-xs font-black animate-bounce shadow-lg flex items-center gap-1">
+            <Sparkles className="w-3 h-3" /> TINGGAL 1 KARTU! (UNO)
           </span>
         )}
 
         {playableCardsCount === 0 && !disabled && (
-          <span className="text-xs text-amber-300/90 font-medium flex items-center gap-1">
-            <AlertCircle className="w-3.5 h-3.5" /> Tak ada kartu cocok? Ambil 1 kartu di deck!
+          <span className="text-[11px] sm:text-xs text-amber-300/90 font-medium flex items-center gap-1">
+            <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+            <span>Tak ada kartu cocok? Ambil 1 dari Deck!</span>
           </span>
         )}
       </div>
 
-      {/* Cards Tray */}
-      <div className="pointer-events-auto w-full max-w-4xl bg-slate-900/90 border-2 border-slate-800 rounded-3xl p-3 shadow-2xl backdrop-blur-md flex items-center justify-between gap-3">
+      {/* Cards Dock / Tray */}
+      <div className="pointer-events-auto w-full max-w-4xl bg-slate-900/90 border-2 border-white/10 rounded-3xl p-2.5 sm:p-3 shadow-2xl backdrop-blur-xl flex items-center justify-between gap-2.5 sm:gap-3 ring-1 ring-white/10">
         
         {/* Draw Card Button */}
         <button
           onClick={onDrawCard}
           disabled={disabled}
-          className="shrink-0 flex flex-col items-center justify-center w-20 sm:w-24 h-28 sm:h-32 rounded-2xl bg-gradient-to-b from-indigo-700 to-indigo-950 border-2 border-indigo-400/60 text-white shadow-xl hover:scale-105 active:scale-95 disabled:opacity-50 disabled:pointer-events-none transition-all group"
+          className="shrink-0 flex flex-col items-center justify-center w-20 sm:w-24 h-28 sm:h-32 rounded-2xl bg-gradient-to-b from-indigo-600 via-indigo-800 to-slate-950 border-2 border-indigo-400/60 text-white shadow-xl hover:scale-105 active:scale-95 disabled:opacity-50 disabled:pointer-events-none transition-all group cursor-pointer"
           title="Ambil Kartu dari Deck"
         >
-          <div className="w-8 h-8 rounded-full bg-indigo-500/40 flex items-center justify-center mb-1 group-hover:bg-indigo-400/60 transition-all">
+          <div className="w-8 h-8 rounded-full bg-indigo-500/40 flex items-center justify-center mb-1 group-hover:bg-indigo-400/60 transition-all shadow-inner">
             <PlusCircle className="w-5 h-5 text-indigo-200" />
           </div>
           <span className="text-xs font-bold leading-tight">Ambil</span>
@@ -94,7 +97,7 @@ export default function PlayerHand({
 
             return (
               <button
-                key={card.id || idx}
+                key={card.id ? `${card.id}-${idx}` : `card-${idx}`}
                 disabled={disabled || !isPlayable}
                 onClick={() => {
                   sounds.playCard();

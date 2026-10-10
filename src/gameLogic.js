@@ -2,15 +2,20 @@
 
 export const CARD_COLORS = ['health', 'having', 'loving', 'being'];
 
+let globalCardIdSequence = 1;
+
+export function generateCardId() {
+  return `c_${Date.now().toString(36)}_${globalCardIdSequence++}_${Math.random().toString(36).slice(2, 6)}`;
+}
+
 export function createDeck() {
   const deck = [];
-  let idCounter = 1;
 
   CARD_COLORS.forEach((color) => {
     // Numbers 1 to 9
     for (let num = 1; num <= 9; num++) {
       deck.push({
-        id: `c_${idCounter++}`,
+        id: generateCardId(),
         color,
         type: 'number',
         value: String(num),
@@ -18,7 +23,7 @@ export function createDeck() {
       // Second copy of 1-6 for good variety
       if (num <= 6) {
         deck.push({
-          id: `c_${idCounter++}`,
+          id: generateCardId(),
           color,
           type: 'number',
           value: String(num),
@@ -28,19 +33,19 @@ export function createDeck() {
 
     // Special action cards: Reverse, Skip, +2
     deck.push({
-      id: `c_${idCounter++}`,
+      id: generateCardId(),
       color,
       type: 'reverse',
       value: '🔄',
     });
     deck.push({
-      id: `c_${idCounter++}`,
+      id: generateCardId(),
       color,
       type: 'skip',
       value: '🚫',
     });
     deck.push({
-      id: `c_${idCounter++}`,
+      id: generateCardId(),
       color,
       type: 'draw2',
       value: '+2',
@@ -50,7 +55,7 @@ export function createDeck() {
   // Wild Cards (Wild & Wild +4)
   for (let w = 0; w < 3; w++) {
     deck.push({
-      id: `c_${idCounter++}`,
+      id: generateCardId(),
       color: 'wild',
       type: 'wild',
       value: 'WILD',
@@ -58,7 +63,7 @@ export function createDeck() {
   }
   for (let w4 = 0; w4 < 2; w4++) {
     deck.push({
-      id: `c_${idCounter++}`,
+      id: generateCardId(),
       color: 'wild',
       type: 'wild4',
       value: '+4',

@@ -57,17 +57,18 @@ export default function SummaryModal({
       <div className="w-full max-w-2xl bg-slate-900 border-2 border-amber-500/50 rounded-3xl p-6 sm:p-8 shadow-2xl text-center space-y-6 my-auto">
         
         {/* Header Ribbon */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-sm font-bold">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs sm:text-sm font-bold">
           <Trophy className="w-4 h-4 text-amber-400" />
-          Rangkuman Refleksi School Well-being
+          <span>Kemenangan Kartu & Rangkuman Well-being</span>
         </div>
 
         <div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white font-fredoka">
-            {winner ? `Hore! ${winner.name} Berhasil Menuntaskan Kartu!` : 'Hebat! Team Well-being Meter Mencapai 100%!'}
+          <div className="text-4xl sm:text-5xl mb-2">🎉🏆✨</div>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-white font-fredoka leading-tight">
+            {winner ? `Selamat! ${winner.name} Menang karena Kartunya Habis!` : 'Pertandingan Selesai dengan Penuh Kebersamaan!'}
           </h2>
-          <p className="text-sm text-slate-300 mt-1">
-            Terima kasih semuanya sudah saling berbagi cerita dan mendengarkan dengan penuh empati! 🌈
+          <p className="text-xs sm:text-sm text-slate-300 mt-2 max-w-lg mx-auto leading-relaxed">
+            Permainan selesai saat seluruh kartu di tangan berhasil dimainkan. Terima kasih kepada seluruh pemain yang telah saling berbagi cerita 4 Dimensi School Well-being dengan penuh empati! 🌈
           </p>
         </div>
 
@@ -170,11 +171,16 @@ export default function SummaryModal({
         {/* Tombol Main Lagi */}
         <button
           onClick={onPlayAgain}
-          className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 text-slate-950 font-black text-base shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 mx-auto"
+          className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 text-slate-950 font-black text-base shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 mx-auto cursor-pointer"
         >
           <RotateCcw className="w-5 h-5" />
           <span>Mainkan Lagi Bersama Kelas</span>
         </button>
+
+        {/* Developer Attribution Footer */}
+        <div className="pt-2 border-t border-slate-800 text-[11px] text-slate-400">
+          Media Inovasi Pembelajaran UNO CERITA • Dikembangkan oleh <strong className="text-amber-300">Aceng Muhammad Sirojudin</strong> (Mahasiswa PPG Prajabatan 2026, Universitas Terbuka)
+        </div>
 
       </div>
     </div>

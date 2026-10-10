@@ -32,6 +32,11 @@ export default function App() {
 
   // Start Game from Lobby
   const handleStartGame = (playerNames, botMode = false) => {
+    sounds.init();
+    if (!sounds.muted && !sounds.bgmPlaying) {
+      sounds.startBGM();
+    }
+
     const fullDeck = createDeck();
     const initialHandSize = 5;
 
@@ -247,16 +252,10 @@ export default function App() {
     setPendingQuestion(null);
 
     // Check End Game conditions:
-    // 1. One player emptied hand
-    // 2. Or Team Well-being Meter reached 100%
+    // Game HANYA selesai ketika ada pemain yang kartunya habis (remainingHand.length === 0)
+    // Skor Well-being tetap bertambah sebagai capaian tim, tetapi tidak mengakhiri game
     if (remainingHand.length === 0) {
       setWinner(player);
-      setGameState('gameover');
-      return;
-    }
-
-    if (newScore >= 100) {
-      setWinner(null); // Whole team won!
       setGameState('gameover');
       return;
     }
@@ -275,13 +274,7 @@ export default function App() {
       handlePlayCard,
       handleDrawCard,
     };
-  }, [
-    handleCompleteReflection,
-    handleSelectPlusTwoTarget,
-    handleSelectWildColor,
-    handlePlayCard,
-    handleDrawCard,
-  ]);
+  });
 
   // Bot Auto-Play Turn (Runs when Solo Bot Mode is active and it's a computer player's turn)
   useEffect(() => {
